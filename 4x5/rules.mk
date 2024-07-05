@@ -1,6 +1,7 @@
 # Build Options
 #   change yes to no to disable
-#
+# qmk compile -kb handwired/dactyl_manuform/4x5 -km default
+
 BOOTMAGIC_ENABLE = no       # Enable Bootmagic Lite
 MOUSEKEY_ENABLE = yes       # Mouse keys
 EXTRAKEY_ENABLE = yes       # Audio control and System control
