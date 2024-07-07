@@ -45,7 +45,7 @@ const uint16_t PROGMEM k_combo[]         = {KC_J, KC_V, COMBO_END};
 
 combo_t key_combos[] = {
     COMBO(other_combo, DIGITS),
-    COMBO(tab_combo, KC_TAB), 
+    COMBO(tab_combo, KC_TAB),
     COMBO(enter_combo, QK_LEAD),
     COMBO(digits_layer_combo, KC_ENT),
     COMBO(prog_layer_combo, TG(_PROG)),
@@ -70,17 +70,17 @@ tap_dance_action_t tap_dance_actions[] = {
     [TD_KC_SCLN_COLN] = ACTION_TAP_DANCE_DOUBLE(KC_COLN, KC_SCLN),
     [TD_KC_QUOT_KC_DQUO] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_DQUO),
     [TD_KC_EQUAL_KC_PLUS] = ACTION_TAP_DANCE_DOUBLE(KC_EQUAL, KC_PLUS),
-    [TD_KC_MINUS_KC_UNDERSCORE] = ACTION_TAP_DANCE_DOUBLE(KC_UNDERSCORE, KC_MINUS), 
+    [TD_KC_MINUS_KC_UNDERSCORE] = ACTION_TAP_DANCE_DOUBLE(KC_UNDERSCORE, KC_MINUS),
     [TD_KC_EQUAL_KC_PLUS] = ACTION_TAP_DANCE_DOUBLE(KC_EQUAL, KC_PLUS),
-    [TD_KC_LEFT_BRACKET_KC_LEFT_PAREN] = ACTION_TAP_DANCE_DOUBLE(KC_LEFT_BRACKET, KC_LEFT_PAREN),    
+    [TD_KC_LEFT_BRACKET_KC_LEFT_PAREN] = ACTION_TAP_DANCE_DOUBLE(KC_LEFT_BRACKET, KC_LEFT_PAREN),
     [TD_KC_RIGHT_BRACKET_KC_UNDERSCORE] = ACTION_TAP_DANCE_DOUBLE(KC_RIGHT_BRACKET, KC_RIGHT_PAREN),
-    [TD_KC_BRACKET] = ACTION_TAP_DANCE_DOUBLE(KC_LEFT_BRACKET, KC_RIGHT_BRACKET),    
+    [TD_KC_BRACKET] = ACTION_TAP_DANCE_DOUBLE(KC_LEFT_BRACKET, KC_RIGHT_BRACKET),
     [TD_KC_PAREN] = ACTION_TAP_DANCE_DOUBLE(KC_LEFT_PAREN, KC_RIGHT_PAREN),
     [TD_KC_CBR] = ACTION_TAP_DANCE_DOUBLE(KC_LCBR, KC_RCBR)
 };
 
-const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { 
-/* Base 
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+/* Base
  * ,----------------------------------,                             ,----------------------------------,
  * |   w  |   l  |   y  |   p  |   b  |                             |   z  |   f  |   o  |   u  |  :;  |
  * |------+------+------+------+------|                             |-------------+------+------+------|
@@ -92,13 +92,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *        '------+------'------                                            ,------,------+------'
  *                      |  BS  |                                           | SPACE|
  *                      |   +  |                                           |  +   |
- *                      | CTRL |                                           | ALT  | 
+ *                      | CTRL |                                           | ALT  |
  *                      '------|                                           '------|
  *                             '-------+---------,  ,-----------+-----------------'
  *                             | TAB   |ESC+SHIFT|  |   DIGITS  |HOLD_RAISE + PROG|
  *                             '-------+---------'  '-----------+-----------------'
  *                             |WINDOWS|    `    |  |ENTER+SHIFT|
- *                             '-------+---------'  '-----------'         
+ *                             '-------+---------'  '-----------'
 */
 [_BASE] = LAYOUT(
     KC_W,   KC_L,    KC_Y,               KC_P,                 KC_B,               KC_Z,   KC_F,    KC_O,    KC_U,    TD(TD_KC_SCLN_COLN),
@@ -126,48 +126,46 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                    |      |      | |      |      |
  *                                    '------+------' '------+------'
 */
-  
+
 [_RAISE] = LAYOUT(
     _______, _______, KC_MU,   _______, _______,                                     KC_VOLU, _______, KC_MUTE, PROG, KC_PGUP,
-    KC_MB1, KC_ML,   KC_MD,   KC_MR,   _______,                                      KC_MB2,KC_LEFT, KC_UP, KC_DOWN, KC_RGHT, 
+    KC_MB1, KC_ML,   KC_MD,   KC_MR,   _______,                                      KC_MB2,KC_LEFT, KC_UP, KC_DOWN, KC_RGHT,
     KC_GRV, KC_WH_D, KC_WH_U, _______, _______,                                      KC_VOLD, KC_SLSH, KC_BSLS, KC_QUES, KC_PIPE,
               _______, _______,                                                                      _______,  _______,
-                                _______, _______,                                      
+                                _______, _______,
                                                   _______, _______,  _______, _______,
                                                   _______, _______,   _______, _______
-), 
+),
 
 /* DIGITS
- * ,----------------------------------,                             ,----------------------------------,
- * | F1   | F2   | F3   | F4   | F5   |                             | F6   | F7   | F8   | F9   | F10  |
- * |------+------+------+------+------|                             |-------------+------+------+------|
- * |  1   |  2   |  3   |  4   |  5   |                             |      |      |      |      |      |
- * |------+------+------+------+------|                             |------|------+------+------+------|
- * |  6   |  7   |  8   |  9   |  0   |                             |      |      |      |      |DIGITS|
- * |------+------+------+-------------,                             ,-------------+------+------+------,
- *        | F11  | F12  |                                                         |      |      |
- *        '------+------'-------------'                             '-------------'------+------'
- *                      |      |      |                             |      |      |
- *                      |      |      |                             |      |      |
- *                      |      |      |                             |      |      |
- *                      '------+------'                             '------+------'
- *                                    '------+------' '------+------'
- *                                    |      |      | |      |      |
- *                                    '------+------' '------+------'
- *                                    |      |      | |      |      |
- *                                    '------+------' '------+------'
- */
+* ,----------------------------------,                             ,----------------------------------,
+* | F1   | F2   | F3   | F4   | F5   |                             |  F6  | F7   |  F8  |  F9  |  F10 |
+* |------+------+------+------+------|                             |-------------+------+------+------|
+* |  1   |  2   |  3   |  4   |  5   |                             |  6   |  7   |  8   |  9   |  0   |
+* |------+------+------+------+------|                             |------|------+------+------+------|
+* |  !   |  @   |  #   |  $   |  %   |                             |  ^   |  &   |  *   |  ?   |DIGITS|
+* |------+------+------+-------------,                             ,-------------+------+------+------,
+*        | F11  | F12  |                                                         |  -   |  =   |
+*        '------+------'-------------'                             '-------------'------+------'
+*                      |      |      |                             |      |      |
+*                      |      |      |                             |      |      |
+*                      |      |      |                             |      |      |
+*                      '------+------'                             '------+------'
+*                                    '------+------' '------+----,--'
+*                                    |      |      | |      |      |
+*                                    '------+------' '------+------'
+*                                    |      |      | |      |      |
+*                                    '------+------' '------+------'
+*/
+    [_DIGITS] = LAYOUT(
+        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                                        KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,
+        KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
+        KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                                      KC_CIRC, KC_AMPR, KC_ASTR, KC_QUES, DIGITS,
+                 KC_F11,  KC_F12,                                                                           _______, _______,
+                                   _______, _______,                                      _______, _______,
+                                                     _______, _______,
+                                                     _______,_______, _______,  _______),
 
-[_DIGITS] = LAYOUT(
-    KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                                        KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,
-    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                         _______, _______, _______, _______, _______,
-    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,                                         _______, _______, _______, _______, DIGITS,
-             KC_F11,  KC_F12,                                                                           _______, _______,
-                               _______, _______,                                      _______, _______,
-                                                 _______, _______,  
-                                                 _______, _______, _______, _______
-),
-   
 /* _PROG
  * ,----------------------------------,                             ,----------------------------------,
  * |      |   r  |      |      |      |                             |      |      |      |      |      |
@@ -202,9 +200,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______, _______, _______,                         _______, _______, _______, _______, _______,
               _______, _______,                                                   _______, _______,
               _______, _______, _______, _______, _______,           _______, _______,  _______, _______,_______),
- 
-
-/* Base 
+              
+/* Base
  * ,----------------------------------,                             ,----------------------------------,
  * |   w  |   l  |   y  |   p  |   b  |                             |   z  |   f  |   o  |   u  |  :;  |
  * |------+------+------+------+------|                             |-------------+------+------+------|
@@ -216,13 +213,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *        '------+------'------                                            ,------,------+------'
  *                      |  BS  |                                           | SPACE|
  *                      |   +  |                                           |  +   |
- *                      | CTRL |                                           | ALT  | 
+ *                      | CTRL |                                           | ALT  |
  *                      '------|                                           '------|
  *                             '-------+---------,  ,-----------+-----------------'
  *                             | TAB   |ESC+SHIFT|  |   DIGITS  |HOLD_RAISE + PROG|
  *                             '-------+---------'  '-----------+-----------------'
  *                             |WINDOWS|    `    |  |ENTER+SHIFT|
- *                             '-------+---------'  '-----------'         
+ *                             '-------+---------'  '-----------'
 */
 [_IDEA] = LAYOUT(
     KC_W,    KC_L,    KC_Y,    KC_P,    KC_B,                                        KC_Z,    KC_F,    KC_O,    KC_U,    TD(TD_KC_SCLN_COLN),
@@ -288,8 +285,8 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t * record) {
 void leader_start_user(void) {}
 
 void leader_end_user(void) {
-    if (leader_sequence_one_key(KC_E)) {      
-        SEND_STRING("zilainfo\"gmail.com");    
+    if (leader_sequence_one_key(KC_E)) {
+        SEND_STRING("zilainfo\"gmail.com");
     } else if (leader_sequence_one_key(KC_B)) {
         layer_on(_BASE_CUSTOM);
     } else if (leader_sequence_one_key(QK_LEAD)) {
