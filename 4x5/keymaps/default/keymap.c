@@ -232,31 +232,32 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             CTL_BSPC, SFT_ESC, KC_TAB, KC_LGUI, KC_GRV,                                      ALT_SPC, TT(_PROG), RAISE, SFT_ENT, SFT_ENT
 ),
 
-/* Base (qwerty)
- * ,----------------------------------,                             ,----------------------------------,
- * |   q  |   w  |   e  |   r  |   t  |                             |   y  |   u  |   i  |   o  |   p  |
- * |------+------+------+------+------|                             |-------------+------+------+------|
- * |   a  |   s  |   d  |   f  |   g  |                             |   h  |   j  |   k  |   l  |   ;  |
- * |------+------+------+------+------|                             |------|------+------+------+------|
- * |   z  |   x  |   c  |   v  |   b  |                             |   n  |   m  |   ,  |   .  |   '  |
- * |------+------+------+-------------,                             ,-------------+------+------+------,
- *        |  /   |  ?   |                                                         |  |   |    |
- *        '------+------'-------------'                             '-------------'------+------'
- *                      | ESC  |  BS  |                             | SPACE|ENTER |
- *                      |  +   |   +  |                             |  +   |  +   |
- *                      | SHIFT| CTRL |                             | ALT  |SHIFT | 
- *                      '------+------'                             '------+------'
- *                                    '------+------' '------+------'
- *                                    | TAB  | HOME | |      |      |
- *                                    '------+------' '------+------'
- */
- 
-[_BASE_CUSTOM] = LAYOUT(
-    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,
-    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                         KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,
-    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                                         KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_QUOT,
-                      KC_LBRC, KC_QUES,                                                        KC_MINS, KC_EQL,
-                          CTL_BSPC, SFT_ESC, KC_TAB, KC_LGUI, KC_GRV,                                      ALT_SPC, TT(_PROG), LT(_RAISE, QK_LEAD), SFT_ENT, SFT_ENT)
+    /* Base (qwerty)
+     * ,----------------------------------,                             ,----------------------------------,
+     * |   q  |   w  |   e  |   r  |   t  |                             |   y  |   u  |   i  |   o  |   p  |
+     * |------+------+------+------+------|                             |-------------+------+------+------|
+     * |   a  |   s  |   d  |   f  |   g  |                             |   h  |   j  |   k  |   l  |   ;  |
+     * |------+------+------+------+------|                             |------|------+------+------+------|
+     * |   z  |   x  |   c  |   v  |   b  |                             |   n  |   m  |   ,  |   .  |   '  |
+     * |------+------+------+-------------,                             ,-------------+------+------+------,
+     *        |  [   |   ]  |                                                         |   -  |   =  |
+     *        '------+------'-------------'                             '-------------'------+------'
+     *                      | ESC  |  BS  |                             | SPACE|ENTER |
+     *                      |  +   |   +  |                             |  +   |  +   |
+     *                      | SHIFT| CTRL |                             | ALT  |SHIFT |
+     *                      '------+------'                             '------+------'
+     *                                    '------+------' '------+------'
+     *                                    | TAB  | HOME | | END  | DEL  |
+     *                                    '------+------' '------+------'
+     *                                    | Raise|  ~   | | GUI  | Lower|
+     *                                    '------+------' '------+------'
+     */
+    [_BASE_CUSTOM] = LAYOUT(
+        KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,
+        KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                         KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,
+        KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                                         KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_QUOT,
+                      KC_LBRC, KC_QUES,                                                        KC_MINS, BASE_CUSTOM,
+                          KC_TAB, KC_SPACE, KC_TAB, KC_LGUI, KC_GRV,                                      ALT_SPC, TT(_PROG), LT(_RAISE, QK_LEAD), SFT_ENT, SFT_ENT)
 };
 
 void persistent_default_layer_set(uint16_t default_layer) {
@@ -287,31 +288,15 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t * record) {
 void leader_start_user(void) {}
 
 void leader_end_user(void) {
-
-  if (leader_sequence_one_key(KC_F)) {
-    // Leader, f => Types the below string
-  } else if (leader_sequence_one_key(KC_Q)) {
-    // Leader, d, d => Ctrl+A, Ctrl+C
-    if (!ukraineLanguge) {
-      ukraineLanguge = false;
-      SEND_STRING("QMK");
-
-      tap_code16(LGUI(KC_SPACE));
+    if (leader_sequence_one_key(KC_E)) {      
+        SEND_STRING("zilainfo\"gmail.com");    
+    } else if (leader_sequence_one_key(KC_B)) {
+        layer_on(_BASE_CUSTOM);
+    } else if (leader_sequence_one_key(QK_LEAD)) {
+        layer_on(_PROG);
     } else {
-      SEND_STRING("2");
-
-      ukraineLanguge = true;
-      tap_code16(LGUI(KC_SPACE));
-      tap_code16(LGUI(KC_SPACE));
+        layer_on(_DIGITS);
     }
-    layer_invert(_BASE_CUSTOM);
-  } else if (leader_sequence_three_keys(KC_D, KC_D, KC_S)) {
-    // Leader, d, d, s => Types the below string
-    SEND_STRING("https://start.duckduckgo.com\n");
-  } else if (leader_sequence_two_keys(KC_A, KC_S)) {
-    // Leader, a, s => GUI+S
-    tap_code16(LGUI(KC_SPACE));
-  }
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t * record) {
@@ -326,7 +311,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t * record) {
     break;
 
   }
-
   return true;
 }
 
@@ -336,6 +320,10 @@ void matrix_scan_user(void) {
   if (get_highest_layer(layer_state) == _DIGITS) {
     if (last_input_activity_elapsed() > NUM_LAYER_TIMEOUT) {
       layer_off(_DIGITS);
+    }
+  }else if(get_highest_layer(layer_state) == _PROG) {
+    if (last_input_activity_elapsed() > NUM_LAYER_TIMEOUT) {
+      layer_off(_PROG);
     }
   }
 }
