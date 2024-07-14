@@ -11,6 +11,7 @@
 #define _OTHER 4
 #define _IDEA 5
 #define _BASE_CUSTOM 6
+#define _QWERT 7
 
 #define SFT_ESC SFT_T(KC_ESC)
 #define CTL_BSPC CTL_T(KC_BSPC)
@@ -43,15 +44,20 @@ const uint16_t PROGMEM semicolon_combo[] = {MT(MOD_LCTL | MOD_LALT, KC_H), KC_CO
 const uint16_t PROGMEM slash_combo[]     = {MT(MOD_LCTL | MOD_LALT, KC_H), KC_COMM, KC_DOT, COMBO_END};
 const uint16_t PROGMEM k_combo[]         = {KC_J, KC_V, COMBO_END};
 
-combo_t key_combos[] = {
-    COMBO(other_combo, DIGITS),
-    COMBO(tab_combo, KC_TAB),
-    COMBO(enter_combo, QK_LEAD),
-    COMBO(digits_layer_combo, KC_ENT),
-    COMBO(prog_layer_combo, TG(_PROG)),
-    COMBO(semicolon_combo, KC_COLN),
-    COMBO(slash_combo, KC_SLSH),
-    COMBO(k_combo, KC_K)
+const uint16_t PROGMEM qwerty_tab_combo[]     = {LT(_PROG, KC_D), LT(_DIGITS, KC_F), COMBO_END};
+const uint16_t PROGMEM qwerty_enter_combo[]   = {LT(_PROG, KC_J), LT(_DIGITS, KC_K), KC_L, COMBO_END};
+
+combo_t key_combos[COMBO_COUNT] = {
+    [OTHER_COMBO] = COMBO(other_combo, KC_DIGITS),
+    [TAB_COMBO] = COMBO(tab_combo, KC_TAB),
+    [ENTER_COMBO] = COMBO(enter_combo, QK_LEAD),
+    [DIGITS_LAYER_COMBO] = COMBO(digits_layer_combo, KC_ENT),
+    [PROG_LAYER_COMBO] = COMBO(prog_layer_combo, TG(_PROG)),
+    [SEMICOLON_COMBO] = COMBO(semicolon_combo, KC_COLN),
+    [SLASH_COMBO] = COMBO(slash_combo, KC_SLSH),
+    [K_COMBO] = COMBO(k_combo, KC_K),
+    [QWRT_TAB_COMBO] = COMBO(qwerty_tab_combo, KC_TAB),
+    [QWRT_ENTER_COMBO] = COMBO(qwerty_enter_combo, KC_ENT),
 };
 
 enum {
@@ -254,9 +260,35 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                         KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,
         KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                                         KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_QUOT,
                       KC_LBRC, KC_QUES,                                                        KC_MINS, BASE_CUSTOM,
-                          KC_TAB, KC_SPACE, KC_TAB, KC_LGUI, KC_GRV,                                      ALT_SPC, TT(_PROG), LT(_RAISE, QK_LEAD), SFT_ENT, SFT_ENT)
-};
+                          KC_TAB, KC_SPACE, KC_ESC, KC_LGUI, KC_RALT,                                      ALT_SPC, TT(_PROG), LT(_RAISE, QK_LEAD), SFT_ENT, SFT_ENT)
 
+    /* Base (qwerty)
+     * ,----------------------------------,                             ,----------------------------------,
+     * |   q  |   w  |   e  |   r  |   t  |                             |   y  |   u  |   i  |   o  |   p  |
+     * |------+------+------+------+------|                             |-------------+------+------+------|
+     * |   a  |   s  |   d  |   f  |   g  |                             |   h  |   j  |   k  |   l  |   ;  |
+     * |------+------+------+------+------|                             |------|------+------+------+------|
+     * |   z  |   x  |   c  |   v  |   b  |                             |   n  |   m  |   ,  |   .  |   '  |
+     * |------+------+------+-------------,                             ,-------------+------+------+------,
+     *        |  [   |   ]  |                                                         |   -  |   =  |
+     *        '------+------'-------------'                             '-------------'------+------'
+     *                      | ESC  |  BS  |                             | SPACE|ENTER |
+     *                      |  +   |   +  |                             |  +   |  +   |
+     *                      | SHIFT| CTRL |                             | ALT  |SHIFT |
+     *                      '------+------'                             '------+------'
+     *                                    '------+------' '------+------'
+     *                                    | TAB  | HOME | | END  | DEL  |
+     *                                    '------+------' '------+------'
+     *                                    | Raise|  ~   | | GUI  | Lower|
+     *                                    '------+------' '------+------'
+     */
+    [_QWERTY] = LAYOUT(
+        KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,
+        KC_A,    KC_S,    LT(_PROG, KC_D), LT(_DIGITS, KC_F),   KC_G,                     KC_H,   LT(_PROG, KC_J), LT(_DIGITS, KC_K)    KC_L,    KC_SCLN,
+        KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                                         KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_QUOT,
+          TD(TD_KC_EQUAL_KC_PLUS), TD(TD_KC_MINUS_KC_UNDERSCORE),                          TD(TD_KC_RIGHT_BRACKET_KC_UNDERSCORE), TD(TD_KC_LEFT_BRACKET_KC_LEFT_PAREN),
+            CTL_BSPC, SFT_ESC, KC_TAB, KC_LGUI, KC_GRV,                                      ALT_SPC, TT(_PROG), LT(_RAISE, QK_LEAD), SFT_ENT, SFT_ENT)
+};
 void persistent_default_layer_set(uint16_t default_layer) {
   eeconfig_update_default_layer(default_layer);
   default_layer_set(default_layer);
@@ -323,4 +355,27 @@ void matrix_scan_user(void) {
       layer_off(_PROG);
     }
   }
+}
+
+void process_combo_event(uint16_t combo_index, bool pressed) {
+    switch(combo_index) {    
+        case QWRT_TAB_COMBO:
+            if (pressed) {
+                if (IS_LAYER_ON(_QWERTY)) {
+                    // Do something different if on LAYER1
+                    tap_code(KC_TAB);
+             }
+            }
+            break;
+        case QWRT_ENTER_COMBO:
+            if (pressed) {
+                if (IS_LAYER_ON(_QWERTY)) {
+                    // Do something different if on LAYER1
+                    tap_code(KC_ENT);
+                }
+            }
+            break;
+        default:
+            break;
+    }
 }
